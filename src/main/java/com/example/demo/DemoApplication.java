@@ -14,44 +14,44 @@ import org.springframework.shell.standard.ShellMethod;
 @SpringBootApplication
 public class DemoApplication {
   @Autowired
-  BookRepository bookRepository;
+  GameRecordRepository gameRecordRepository;
 
   public static void main(String[] args) {
      SpringApplication.run(DemoApplication.class, args);
   }
 
-  @ShellMethod("Saves a book to Cloud Datastore: save-book <title> <author> <year>")
-  public String saveBook(String title, String author, int year) {
-     Book savedBook = this.bookRepository.save(new Book(title, author, year));
-     return savedBook.toString();
+  @ShellMethod("Saves a game record to Cloud Datastore: save-game-record <score> <playerId> <handle>")
+  public String saveGameRecord(int score, String playerId, String handle) {
+     GameRecord savedGameRecord = this.gameRecordRepository.save(new GameRecord(score, playerId, handle));
+     return savedGameRecord.toString();
   }
 
-  @ShellMethod("Loads all books")
-  public String findAllBooks() {
-     Iterable<Book> books = this.bookRepository.findAll();
-     return Lists.newArrayList(books).toString();
+  @ShellMethod("Loads all game records")
+  public String findAllGameRecords() {
+     Iterable<GameRecord> gameRecords = this.gameRecordRepository.findAll();
+     return Lists.newArrayList(gameRecords).toString();
   }
 
-  @ShellMethod("Loads books by author: find-by-author <author>")
-  public String findByAuthor(String author) {
-     List<Book> books = this.bookRepository.findByAuthor(author);
-     return books.toString();
+  @ShellMethod("Loads game records by a specific score: find-by-score <score>")
+  public String findByScore(int score) {
+     List<GameRecord> gameRecords = this.gameRecordRepository.findByScore(score);
+     return gameRecords.toString();
   }
 
-  @ShellMethod("Loads books published after a given year: find-by-year-after <year>")
-  public String findByYearAfter(int year) {
-     List<Book> books = this.bookRepository.findByYearGreaterThan(year);
-     return books.toString();
+  @ShellMethod("Loads game records which are greater than a given score: find-by-score-greater-than <score>")
+  public String findByScoreGreaterThan(int score) {
+     List<GameRecord> gameRecords = this.gameRecordRepository.findByScoreGreaterThan(score);
+     return gameRecords.toString();
   }
 
-  @ShellMethod("Loads books by author and year: find-by-author-year <author> <year>")
-  public String findByAuthorYear(String author, int year) {
-     List<Book> books = this.bookRepository.findByAuthorAndYear(author, year);
-     return books.toString();
+  @ShellMethod("Loads game records by playerId: find-by-playerId <playerId>")
+  public String findByPlayerId(String playerId) {
+     List<GameRecord> gameRecords = this.gameRecordRepository.findByPlayerId(playerId);
+     return gameRecords.toString();
   }
 
-  @ShellMethod("Removes all books")
+  @ShellMethod("Removes all game records")
   public void removeAllBooks() {
-     this.bookRepository.deleteAll();
+     this.gameRecordRepository.deleteAll();
   }
 }
