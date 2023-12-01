@@ -1,4 +1,4 @@
-package com.example.gameserver;
+package gameserver;
 
 import com.google.cloud.spring.data.datastore.repository.DatastoreRepository;
 

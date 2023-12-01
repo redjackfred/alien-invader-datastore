@@ -1,7 +1,9 @@
-package com.example.gameserver;
+package gameserver;
 
 import com.google.cloud.spring.data.datastore.core.mapping.Entity;
 import org.springframework.data.annotation.Id;
+
+import java.util.Objects;
 
 @Entity(name = "Record")
 public class Record {
@@ -58,5 +60,29 @@ public class Record {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Record record = (Record) o;
+        return score == record.score && Objects.equals(id, record.id) && Objects.equals(userId, record.userId) && Objects.equals(userName, record.userName) && Objects.equals(date, record.date);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, userId, userName, score, date);
+    }
+
+    @Override
+    public String toString() {
+        return "Record{" +
+                "id=" + id +
+                ", userId='" + userId + '\'' +
+                ", userName='" + userName + '\'' +
+                ", score=" + score +
+                ", date='" + date + '\'' +
+                '}';
     }
 }

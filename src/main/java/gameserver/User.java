@@ -1,7 +1,10 @@
-package com.example.gameserver;
+package gameserver;
 
 import com.google.cloud.spring.data.datastore.core.mapping.Entity;
 import org.springframework.data.annotation.Id;
+
+import java.util.Objects;
+
 
 @Entity
 public class User {
@@ -33,5 +36,27 @@ public class User {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) && Objects.equals(userId, user.userId) && Objects.equals(userName, user.userName);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", userId='" + userId + '\'' +
+                ", userName='" + userName + '\'' +
+                '}';
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, userId, userName);
     }
 }

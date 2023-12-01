@@ -1,4 +1,4 @@
-package com.example.gameserver;
+package gameserver;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +19,11 @@ public class RecordController {
         this.recordRepository = recordRepository;
     }
 
+    /**
+     * save a new record into database
+     * @param record the record react posted
+     * @return string "success" if correctly saved
+     */
     @PostMapping("/saveRecord")
     @CrossOrigin("*")
     public String saveRecord(@RequestBody Record record){
@@ -41,8 +46,8 @@ public class RecordController {
     @GetMapping("/findAllRecord")
     @CrossOrigin("*")
     public Map<String, Object> findAllRecord(@RequestParam int pageNum,
-                                      @RequestParam int pageSize,
-                                      @RequestParam String sortDirection){
+                                             @RequestParam int pageSize,
+                                             @RequestParam String sortDirection){
         Pageable pageSortByScore = PageRequest.of(
                 pageNum - 1,
                 pageSize,
@@ -71,8 +76,8 @@ public class RecordController {
     @GetMapping("/myRecord")
     @CrossOrigin("*")
     public Map<String, Object> findMyRecord(@RequestParam String userId,
-                                     @RequestParam int pageNum,
-                                     @RequestParam int pageSize) {
+                                            @RequestParam int pageNum,
+                                            @RequestParam int pageSize) {
         Pageable pageSortByScore = PageRequest.of(pageNum - 1, pageSize);
         Page<Record> page = this.recordRepository.findAllByUserId(userId, pageSortByScore);
 
@@ -101,5 +106,25 @@ public class RecordController {
         // delete by id
         this.recordRepository.deleteById(Long.parseLong(json.get("id")));
         return "success";
+    }
+
+    @Override
+    public String toString() {
+        return "RecordController{" +
+                "recordRepository=" + recordRepository +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RecordController that = (RecordController) o;
+        return Objects.equals(recordRepository, that.recordRepository);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(recordRepository);
     }
 }
